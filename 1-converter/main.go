@@ -12,29 +12,51 @@ const (
 var eurrub = usdrub / usdeur
 
 func main() {
+
+	fmt.Println(`Выберите нужную валюту из которой происходит конвертация или введите "quit" для выхода`)
+	choises_printer("")
+	var start string
+
 	for {
-		fmt.Println(`Выберите нужную валюту из которой происходит конвертация или введите "quit" для выхода`)
-		choises_printer("")
-		start := readcurinput("")
+		start = readcurinput("")
 		if start == "quit" {
 			break
 		}
 		if start == "Ошибка: Валюта введена неверно, повторите выбор:" {
 			fmt.Println("Ошибка: Валюта введена неверно, повторите выбор:")
 			continue
+		} else {
+			break
 		}
-		fmt.Printf("Выберите количество конвертируемых %v:\n", start)
-		num := readnumbinput()
-		fmt.Printf("Выберите валюту в которую будет происходить конвертация %v %v:\n", num, start)
-		choises_printer(start)
-		finish := readcurinput(start)
+	}
+
+	fmt.Printf("Выберите количество конвертируемых %v:\n", start)
+	var num float64
+	for {
+		num = readnumbinput()
+		if num == 0.0 {
+			fmt.Printf("Ошибка, введено неправильное количество %v , повторите выбор\n", start)
+		} else {
+			break
+		}
+	}
+
+	fmt.Printf("Выберите валюту в которую будет происходить конвертация %v %v:\n", num, start)
+	choises_printer(start)
+	var finish string
+
+	for {
+		finish = readcurinput(start)
 		if finish == "Ошибка: Валюта введена неверно, повторите выбор:" {
 			fmt.Println("Ошибка: Валюта введена неверно, повторите выбор:")
 			continue
+		} else {
+			break
 		}
-		result := converter(num, start, finish)
-		fmt.Printf("%v %v переводятся в %.2f %v\n", num, start, result, finish)
 	}
+
+	result := converter(num, start, finish)
+	fmt.Printf("%v %v равняются %.2f %v\n", num, start, result, finish)
 }
 
 func readcurinput(ignore string) string {
