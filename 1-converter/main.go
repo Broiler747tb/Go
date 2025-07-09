@@ -1,6 +1,8 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+)
 
 const (
 	usdeur = 0.85
@@ -11,30 +13,54 @@ var eurrub = usdrub / usdeur
 
 func main() {
 	for {
-		gog := readcurinput()
-		if gog == "Error: No such currency, try again." {
-			fmt.Println("Error: No such currency, try again.")
+		fmt.Println(`Выберите нужную валюту из которой происходит конвертация или введите "quit" для выхода`)
+		choises_printer("")
+		start := readcurinput("")
+		if start == "quit" {
+			break
+		}
+		if start == "Ошибка: Валюта введена неверно, повторите выбор:" {
+			fmt.Println("Ошибка: Валюта введена неверно, повторите выбор:")
 			continue
 		}
-		ts :=
+		fmt.Printf("Выберите количество конвертируемых %v:\n", start)
+		num := readnumbinput()
+		fmt.Printf("Выберите валюту в которую будет происходить конвертация %v %v:\n", num, start)
+		choises_printer(start)
+		finish := readcurinput(start)
+		if finish == "Ошибка: Валюта введена неверно, повторите выбор:" {
+			fmt.Println("Ошибка: Валюта введена неверно, повторите выбор:")
+			continue
+		}
+		result := converter(num, start, finish)
+		fmt.Printf("%v %v переводятся в %.2f %v\n", num, start, result, finish)
 	}
 }
 
-func readcurinput() string {
+func readcurinput(ignore string) string {
 	var sc string
 	fmt.Scan(&sc)
-	if sc == "eur" || sc == "rub" || sc == "usd" {
+	if (sc == "eur" || sc == "rub" || sc == "usd" || sc == "quit") && sc != ignore {
 		return sc
 	} else {
-		return "Error: No such currency, try again."
+		return "Ошибка: Валюта введена неверно, повторите выбор:"
 	}
 }
 
 func readnumbinput() float64 {
 	var numb float64
 	fmt.Scan(&numb)
-	
+
 	return numb
+}
+
+func choises_printer(except string) {
+	choises := []string{"eur", "rub", "usd"}
+	for _, value := range choises {
+		if value != except {
+			fmt.Println(value)
+		}
+	}
 }
 
 func converter(numb float64, start string, finish string) float64 {
