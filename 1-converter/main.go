@@ -14,11 +14,11 @@ var eurrub = usdrub / usdeur
 func main() {
 
 	fmt.Println(`Выберите нужную валюту из которой происходит конвертация или введите "quit" для выхода`)
-	choises_printer("")
+	choisesPrinter("")
 	var start string
 
 	for {
-		start = readcurinput("")
+		start = readCurInput("")
 		if start == "quit" {
 			break
 		}
@@ -33,7 +33,7 @@ func main() {
 	fmt.Printf("Выберите количество конвертируемых %v:\n", start)
 	var num float64
 	for {
-		num = readnumbinput()
+		num = readNumbInput()
 		if num == 0.0 {
 			fmt.Printf("Ошибка, введено неправильное количество %v , повторите выбор\n", start)
 		} else {
@@ -42,11 +42,11 @@ func main() {
 	}
 
 	fmt.Printf("Выберите валюту в которую будет происходить конвертация %v %v:\n", num, start)
-	choises_printer(start)
+	choisesPrinter(start)
 	var finish string
 
 	for {
-		finish = readcurinput(start)
+		finish = readCurInput(start)
 		if finish == "Ошибка: Валюта введена неверно, повторите выбор:" {
 			fmt.Println("Ошибка: Валюта введена неверно, повторите выбор:")
 			continue
@@ -59,7 +59,7 @@ func main() {
 	fmt.Printf("%v %v равняются %.2f %v\n", num, start, result, finish)
 }
 
-func readcurinput(ignore string) string {
+func readCurInput(ignore string) string {
 	var sc string
 	fmt.Scan(&sc)
 	if (sc == "eur" || sc == "rub" || sc == "usd" || sc == "quit") && sc != ignore {
@@ -69,14 +69,14 @@ func readcurinput(ignore string) string {
 	}
 }
 
-func readnumbinput() float64 {
+func readNumbInput() float64 {
 	var numb float64
 	fmt.Scan(&numb)
 
 	return numb
 }
 
-func choises_printer(except string) {
+func choisesPrinter(except string) {
 	choises := []string{"eur", "rub", "usd"}
 	for _, value := range choises {
 		if value != except {
@@ -86,23 +86,21 @@ func choises_printer(except string) {
 }
 
 func converter(numb float64, start string, finish string) float64 {
-	if start == "usd" && finish == "eur" {
+
+	switch {
+	case start == "usd" && finish == "eur":
 		return numb * usdeur
-	}
-	if start == "usd" && finish == "rub" {
+	case start == "usd" && finish == "rub":
 		return numb * usdrub
-	}
-	if start == "eur" && finish == "rub" {
+	case start == "eur" && finish == "rub":
 		return numb * eurrub
-	}
-	if finish == "usd" && start == "eur" {
+	case finish == "usd" && start == "eur":
 		return numb / usdeur
-	}
-	if finish == "usd" && start == "rub" {
+	case finish == "usd" && start == "rub":
 		return numb / usdrub
-	}
-	if finish == "eur" && start == "rub" {
+	case finish == "eur" && start == "rub":
 		return numb / eurrub
+	default:
+		return 0.0
 	}
-	return 0.0
 }
