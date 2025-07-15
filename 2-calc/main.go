@@ -36,36 +36,47 @@ func inputHandler() []float64 {
 }
 
 func avgPrint(slice []float64) {
-	var sum float64
-	var count int
-	for index, value := range slice {
-		count = index + 1
-		sum = sum + value
+	if slice == nil {
+		fmt.Println("Ошибка расчёта среднего арифетического числа")
+	} else {
+		var sum float64
+		var count int
+		for index, value := range slice {
+			count = index + 1
+			sum = sum + value
+		}
+		fmt.Println(sum / float64(count))
 	}
-	fmt.Println(sum / float64(count))
 }
 
 func sumPrint(slice []float64) {
-	var sum float64
-	for _, value := range slice {
-		sum = sum + value
+	if slice == nil {
+		fmt.Println("Ошибка расчёта суммы чисел")
+	} else {
+		var sum float64
+		for _, value := range slice {
+			sum = sum + value
+		}
+		fmt.Println(sum)
 	}
-	fmt.Println(sum)
 }
 
 func medPrint(slice []float64) {
-	sort.Float64s(slice)
-	n := len(slice)
-	if n == 0 {
-		fmt.Println(0)
+	if slice == nil {
+		fmt.Println("Ошибка расчёта медианы чисел")
 	} else {
-		if n%2 == 1 {
-			fmt.Println(slice[n/2])
+		sort.Float64s(slice)
+		n := len(slice)
+		if n == 0 {
+			fmt.Println(0)
 		} else {
-			fmt.Println((slice[n/2-1] + slice[n/2]) / 2)
+			if n%2 == 1 {
+				fmt.Println(slice[n/2])
+			} else {
+				fmt.Println((slice[n/2-1] + slice[n/2]) / 2)
+			}
 		}
 	}
-
 }
 
 func choiceHandler() {
