@@ -8,7 +8,7 @@ import (
 )
 
 func main() {
-	fmt.Println("~~~~~~~ Калькулятор V0.3 ~~~~~~~")
+	fmt.Println("~~~~~~~ Калькулятор V1 ~~~~~~~")
 	choiceHandler()
 }
 
