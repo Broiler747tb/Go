@@ -8,7 +8,7 @@ import (
 )
 
 func main() {
-	fmt.Println("~~~~~~~ Калькулятор V0.2 ~~~~~~~")
+	fmt.Println("~~~~~~~ Калькулятор V0.3 ~~~~~~~")
 	choiceHandler()
 }
 
@@ -18,14 +18,21 @@ func inputHandler() []float64 {
 	fmt.Scan(&input)
 	stringslice := strings.Split(input, ",")
 	finalslice := []float64{}
+	errcheck := false
 	for _, value := range stringslice {
 		numb, err := strconv.ParseFloat(value, 64)
 		finalslice = append(finalslice, numb)
 		if err != nil {
-			fmt.Println(err)
+			errcheck = true
+			break
 		}
 	}
-	return finalslice
+	if errcheck != true {
+		return finalslice
+	} else {
+		fmt.Println("Ошибка обработки данных")
+		return nil
+	}
 }
 
 func avgPrint(slice []float64) {
