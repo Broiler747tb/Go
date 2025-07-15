@@ -8,6 +8,7 @@ import (
 )
 
 func main() {
+	fmt.Println("~~~~~~~ Калькулятор V0.2 ~~~~~~~")
 	choiceHandler()
 }
 
@@ -18,8 +19,11 @@ func inputHandler() []float64 {
 	stringslice := strings.Split(input, ",")
 	finalslice := []float64{}
 	for _, value := range stringslice {
-		numb, _ := strconv.ParseFloat(value, 64)
+		numb, err := strconv.ParseFloat(value, 64)
 		finalslice = append(finalslice, numb)
+		if err != nil {
+			fmt.Println(err)
+		}
 	}
 	return finalslice
 }
@@ -47,18 +51,18 @@ func medPrint(slice []float64) {
 	n := len(slice)
 	if n == 0 {
 		fmt.Println(0)
-	}
-	if n%2 == 1 {
-		fmt.Println(slice[n/2])
 	} else {
-		fmt.Println((slice[n/2-1] + slice[n/2]) / 2)
+		if n%2 == 1 {
+			fmt.Println(slice[n/2])
+		} else {
+			fmt.Println((slice[n/2-1] + slice[n/2]) / 2)
+		}
 	}
 
 }
 
 func choiceHandler() {
-	fmt.Printf(`~~~~~~~ Калькулятор V0.1 ~~~~~~~
-
+	fmt.Printf(`
 Выберете нужную операцию:
    "AVG" - среднее арифметическое чисел
    "SUM" - сумма чисел
@@ -73,5 +77,8 @@ func choiceHandler() {
 		sumPrint(inputHandler())
 	case "MED":
 		medPrint(inputHandler())
+	default:
+		fmt.Printf("!  Ошибка: Выбор неправильно введён, повторите опреацию.  !\n")
+		choiceHandler()
 	}
 }
