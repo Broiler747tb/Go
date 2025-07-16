@@ -86,21 +86,14 @@ func choisesPrinter(except string) {
 }
 
 func converter(numb float64, start string, finish string) float64 {
+	return numb * convertmap[start+finish]
+}
 
-	switch {
-	case start == "usd" && finish == "eur":
-		return numb * usdeur
-	case start == "usd" && finish == "rub":
-		return numb * usdrub
-	case start == "eur" && finish == "rub":
-		return numb * eurrub
-	case finish == "usd" && start == "eur":
-		return numb / usdeur
-	case finish == "usd" && start == "rub":
-		return numb / usdrub
-	case finish == "eur" && start == "rub":
-		return numb / eurrub
-	default:
-		return 0.0
-	}
+var convertmap = map[string]float64{
+	"usdeur": usdeur,
+	"usdrub": usdrub,
+	"eurrub": eurrub,
+	"eurusd": 1 / usdeur,
+	"rubusd": 1 / usdrub,
+	"rubeur": 1 / eurrub,
 }
