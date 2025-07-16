@@ -55,7 +55,7 @@ func main() {
 		}
 	}
 
-	result := converter(num, start, finish)
+	result := converter(num, start, finish, &convertmap)
 	fmt.Printf("%v %v равняются %.2f %v\n", num, start, result, finish)
 }
 
@@ -85,8 +85,9 @@ func choisesPrinter(except string) {
 	}
 }
 
-func converter(numb float64, start string, finish string) float64 {
-	return numb * convertmap[start+finish]
+func converter(numb float64, start string, finish string, convertmap *map[string]float64) float64 {
+	coefficient := *convertmap
+	return numb * coefficient[start+finish]
 }
 
 var convertmap = map[string]float64{
