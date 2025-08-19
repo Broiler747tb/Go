@@ -8,7 +8,7 @@ import (
 )
 
 func main() {
-	fmt.Println("~~~~~~~ Калькулятор V1 ~~~~~~~")
+	fmt.Println("~~~~~~~ Калькулятор V1.1 ~~~~~~~")
 	choiceHandler()
 }
 
@@ -86,17 +86,19 @@ func choiceHandler() {
    "SUM" - сумма чисел
    "MED" - медиана чисел
 `)
+	m := map[string]func([]float64){
+		"AVG": avgPrint,
+		"SUM": sumPrint,
+		"MED": medPrint,
+	}
 	var choice string
 	fmt.Scan(&choice)
-	switch choice {
-	case "AVG":
-		avgPrint(inputHandler())
-	case "SUM":
-		sumPrint(inputHandler())
-	case "MED":
-		medPrint(inputHandler())
-	default:
-		fmt.Printf("!  Ошибка: Выбор неправильно введён, повторите опреацию.  !\n")
-		choiceHandler()
-	}
+	defer func() {
+		if r := recover(); r != nil {
+			fmt.Printf("Неверно введена операция, повторите попытку!")
+			choiceHandler()
+		}
+	}()
+	fun := m[choice]
+	fun(inputHandler())
 }
