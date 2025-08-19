@@ -93,6 +93,12 @@ func choiceHandler() {
 	}
 	var choice string
 	fmt.Scan(&choice)
+	defer func() {
+		if r := recover(); r != nil {
+			fmt.Printf("Неверно введена операция, повторите попытку!")
+			choiceHandler()
+		}
+	}()
 	fun := m[choice]
 	fun(inputHandler())
 }
